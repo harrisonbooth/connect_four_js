@@ -1,8 +1,8 @@
-let canvas = document.querySelector('canvas')
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
-
 let context = canvas.getContext('2d')
+// canvas.width = 900;
+// canvas.height = 500;
+
+
 
 let mouse = {
     x: undefined,
@@ -34,7 +34,6 @@ function Circle (x, y, radius) {
         this.y = mouse.y
         this.draw()
     }
-        
     
 }
 
@@ -48,3 +47,6 @@ function animate() {
 }
 
 animate()
+
+//CREATING A BOARD
+
