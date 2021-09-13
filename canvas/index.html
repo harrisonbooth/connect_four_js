@@ -16,12 +16,11 @@
     
     <script type="text/javascript">
     function setUpCanvas(){
-        let canvas = document.querySelector('canvas')
+        let canvas = document.querySelector('#board')
         let context = canvas.getContext('2d')
 
         if(canvas.getContext){
             //CREATING EMPTY BOARD
-            
             let img = new Image();
             img.src = "./Empty2.svg";
             img.onload = function(){
@@ -88,18 +87,18 @@
                 let tile48 = context.drawImage(img, 300, 400, 50, 50);
                 let tile49 = context.drawImage(img, 350, 400, 50, 50);
             }
-
         
         }
     }
     </script>
+    <script src="canvas.js"></script>
+
 </head>
-<body>
-<body onload="setUpCanvas();">
+<body onload="setUpCanvas();" >
     <div>
     <canvas id="canvas" width="800" height="700"></canvas>
-    <!-- <script src="canvas.js"></script> -->
-    
-     </div>   
+    <canvas id="board" width="800" height="700"></canvas>
+        
+</div>   
 </body>
 </html>

@@ -1,5 +1,8 @@
+window.addEventListener("DOMContentLoaded", ()=>{
+
+let canvas = document.querySelector('#canvas')
 let context = canvas.getContext('2d')
-let canvas = document.querySelector('canvas')
+
 // canvas.width = 900;
 // canvas.height = 500;
 
@@ -142,3 +145,5 @@ animate()
             //     this.x = mouse.x
             //     this.y = mouse.y
             // }
+
+        })
