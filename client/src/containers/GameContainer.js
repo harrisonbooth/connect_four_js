@@ -22,16 +22,9 @@ const GameContainer = () => {
         console.log(games)
     }
 
-    const handleClick = (event) => {
-        console.log(event.target);
-
-        const cellId = parseInt(event.target.innerText);
-        if (!game.board[cellId].player) {
-          game.takeTurn(cellId % 7)
-          setGame(game.clone())
-        } else {
-            console.log('move not allowed');
-        }
+    const handleClick = (cellId) => {
+        game.takeTurn(cellId % 7)
+        setGame(game.clone())
     }
 
     const handleResetClick = () => {
@@ -45,7 +38,7 @@ const GameContainer = () => {
     }
 
     const boardNode = (game) ? <BoardComponent board={[...game.board]} handleClick={handleClick} handleSelectClick={handleSelectClick}/> : null
-    console.log("rerendering gamecontainer");
+
     return (
         <>
         <HeaderComponent handleResetClick={handleResetClick}/>

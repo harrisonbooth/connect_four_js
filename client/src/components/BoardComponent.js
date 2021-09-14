@@ -6,8 +6,6 @@ const BoardComponent = ({board, handleClick, handleSelectClick}) => {
         return <CellComponent player={cell.player} winning={cell.winning} id={cell.id} key={cell.id} handleClick={handleClick}/>
     })
 
-    console.log("rerendering boardcomponent");
-
     return (
         <>
             <button id="0" onClick={() => handleSelectClick(0)}>Column 1</button>
@@ -16,12 +14,8 @@ const BoardComponent = ({board, handleClick, handleSelectClick}) => {
 
 
 
-            <div className='grid' onClick= {(event) => {
-                console.log(event.target)
-            }}>
-
+            <div className='grid'>
                 {renderCells}
-
             </div>
         </>
     )
