@@ -2,24 +2,16 @@ import winningArrays from './WinningArrays.js';
 import Cell from './Cell.js';
 
 class Game {
-    constructor(players = [1, 2], board = []) {
+    constructor(players=[1, 2], board=[], currentPlayer=players[0]) {
         this.players = players
         this.board = board
-        this.currentPlayer = players[0]
+        this.currentPlayer = currentPlayer
     }
 
     chooseColumn(column) {
-        // TODO: logic for using column number to determine which id should be claimed
-        // work out which cell id should be claimed in column
-        // claim the cell
-        // in react once this has been called update the state and it should rerender `setGame(game)`
         for (let i=column+42; i>=0; i-=7) {
-            console.log(this.board[i].player);
             if (!this.board[i].player) {
-                this.board[i].player = this.currentPlayer
-                console.log(this.currentPlayer);
-                console.log(this.board[i].player, i);
-                this.takeTurn(i);
+                this.claimCell(i);
                 break
             } else {
                 console.log("error else");
@@ -55,19 +47,13 @@ class Game {
             }
 
         }
-
-        //some kind of win screen...
-
-        
     }
 
     claimCell(id) {
-        //
         this.board[id].claim(this.currentPlayer)
     }
 
     changeCurrentPlayer() {
-        //changes the player
         if (this.currentPlayer === this.players[0]){
             this.currentPlayer = this.players[1];
         } else {
@@ -75,23 +61,24 @@ class Game {
         }
     }
 
-    takeTurn(id) {
-        //call all the above functions
-        console.log(`running taketurn with id ${id}, current player is ${this.currentPlayer}`);
-        this.claimCell(id)
+    clone() {
+      return new Game(this.players, this.board, this.currentPlayer)
+    }
+
+    takeTurn(column) {
+        this.chooseColumn(column)
         this.checkWin()
         this.changeCurrentPlayer()
     }
 
-
-
-    newBoard() {
+    static newGame() {
+        const game = new Game()
         this.board = []
         for (let i = 0; i < 49; i++){
             const cell = new Cell(i);
-            this.board.push(cell)
+            game.board.push(cell)
         }
-        console.log(this.board);
+        return game
     }
 }
 

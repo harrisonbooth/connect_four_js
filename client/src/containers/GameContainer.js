@@ -1,35 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import HeaderComponent from '../components/HeaderComponent';
-import GameBoardComponent from '../components/_GameBoardComponent';
-import ScoreComponent from '../components/ScoreComponent';
 import FooterComponent from '../components/FooterComponent';
 import GamesService from '../services/GameServices';
 import BoardComponent from '../components/BoardComponent';
-
 import Game from '../models/Game'
 
-
-
-
 const GameContainer = () => {
-
     const [games, setGames] = useState([])
     const [game, setGame] = useState(null)
-    const [board, setBoard] = useState(null)
 
     useEffect(() => {
         GamesService.getGames()
-        .then(games=> setGames(games))
-        const game = new Game()
-        game.newBoard()
-        setGame(game)
-    }, []) 
+         .then(games=> setGames(games))
 
-    useEffect(() => {
-        if (game) {
-            setBoard([...game.board])
-        }
-    }, [game])
+        setGame(Game.newGame())
+    }, [])
 
     const endGameResults = finishedGame => {
         GamesService.postGame(finishedGame)
@@ -41,13 +26,9 @@ const GameContainer = () => {
         console.log(event.target);
 
         const cellId = parseInt(event.target.innerText);
-        if (cellId > 41 && !game.board[cellId].player) {
-            game.takeTurn(cellId)
-           setGame(game)
-        }
-        else if (!game.board[cellId].player && game.board[cellId+7].player){
-            game.takeTurn(cellId)
-            setGame(game)
+        if (!game.board[cellId].player) {
+          game.takeTurn(cellId % 7)
+          setGame(game.clone())
         } else {
             console.log('move not allowed');
         }
@@ -55,33 +36,16 @@ const GameContainer = () => {
 
     const handleResetClick = () => {
         game.newBoard();
-        setGame(game)
+        setGame(game.clone())
     }
 
-    const handleSelectClick = (event) => {
+    const handleSelectClick = (column) => {
+      game.takeTurn(column)
+      setGame(game.clone())
+    }
 
-        const selectedCell = event.target.nextElementSibling.childNodes['45'].attributes['0'].nodeValue.trim()
-        
-        const id = parseInt(event.target.id)
-
-        game.chooseColumn(id)
-        setGame(game)
-
-        // for (let i=id; i<48; i+=7) {
-        //     if (event.target.nextElementSibling.childNodes[`${i}`].attributes['0'].nodeValue.trim() !== 'cell') {
-        //         event.target.nextElementSibling.childNodes[`${i - 7}`].attributes['0'].nodeValue = `cell ${game.currentPlayer}`
-
-        //         game.takeTurn(i-7)
-        //     } else if (i+42 < 49) {  
-        //         event.target.nextElementSibling.childNodes[`${i+42}`].attributes['0'].nodeValue = "cell player-1"
-
-        //         game.takeTurn(i+42)
-        //     }
-        // }
-        }
-
-    const boardNode = (board) ? <BoardComponent board={board} handleClick={handleClick} handleSelectClick={handleSelectClick}/> : null
-
+    const boardNode = (game) ? <BoardComponent board={[...game.board]} handleClick={handleClick} handleSelectClick={handleSelectClick}/> : null
+    console.log("rerendering gamecontainer");
     return (
         <>
         <HeaderComponent handleResetClick={handleResetClick}/>
