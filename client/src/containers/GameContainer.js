@@ -37,7 +37,7 @@ const GameContainer = () => {
       setGame(game.clone())
     }
 
-    const boardNode = (game) ? <BoardComponent board={[...game.board]} handleClick={handleClick} handleSelectClick={handleSelectClick}/> : null
+    const boardNode = (game) ? <BoardComponent board={game.board} handleClick={handleClick} handleSelectClick={handleSelectClick}/> : null
 
     return (
         <>
